@@ -634,6 +634,158 @@
       html {
         scroll-behavior: smooth;
       }
+
+
+
+          *  {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .gallery-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 32px;
+      color: #333;
+    }
+
+    .slideshow-container {
+      position: relative;
+      margin: auto;
+    }
+
+    .main-image-container {
+      height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      overflow: hidden;
+      position: relative;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    .active-slide {
+      display: block;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide-overlay {
+      position: absolute;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      width: 100%;
+      padding: 15px;
+      text-align: center;
+      font-size: 18px;
+      transition: opacity 0.3s;
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 24px;
+      border-radius: 50%;
+      transition: 0.3s ease;
+      user-select: none;
+      z-index: 1;
+    }
+
+    .prev {
+      left: 15px;
+    }
+
+    .next {
+      right: 15px;
+    }
+
+    .prev:hover, .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .thumbnail-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .thumbnail {
+      width: 60px;
+      height: 35px;
+      cursor: pointer;
+      opacity: 0.6;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .thumbnail:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .thumbnail.active {
+      opacity: 1;
+      border: 3px solid #4285f4;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+      .main-image-container {
+        height: 350px;
+      }
+      
+      .thumbnail {
+        width: 80px;
+        height: 60px;
+      }
+      
+      .prev, .next {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -742,49 +894,61 @@
     </div>
   </section>
   
-  <section class="gallery" id="gallery">
-    <div class="container">
-      <h2 class="section-title">Our Latest Projects</h2>
-      <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="/api/placeholder/500/500" alt="Custom Project 1">
-          <div class="gallery-overlay">
-            <span>Starlights</span>
-          </div>
+  <section class="gallery-container">
+    <h2 class="section-title">Our Latest Projects</h2>
+    
+    <div class="slideshow-container">
+      <div class="main-image-container">
+        <div class="slide active-slide">
+          <img src="/api/placeholder/1000/600" alt="Starlights">
+          <div class="slide-overlay">Starlights</div>
         </div>
-        <div class="gallery-item">
-          <img src="/api/placeholder/500/500" alt="Custom Project 2">
-          <div class="gallery-overlay">
-            <span>Ambient Lighting</span>
-          </div>
+        
+        <div class="slide">
+          <img src="/api/placeholder/1000/600" alt="Ambient Lighting">
+          <div class="slide-overlay">Ambient Lighting</div>
         </div>
-        <div class="gallery-item">
-          <img src="/api/placeholder/500/500" alt="Custom Project 3">
-          <div class="gallery-overlay">
-            <span>Underglow</span>
-          </div>
+        
+        <div class="slide">
+          <img src="/api/placeholder/1000/600" alt="Underglow">
+          <div class="slide-overlay">Underglow</div>
         </div>
-        <div class="gallery-item">
-          <img src="/api/placeholder/500/500" alt="Custom Project 4">
-          <div class="gallery-overlay">
-            <span>Emergency Lighting</span>
-          </div>
+        
+        <div class="slide">
+          <img src="/api/placeholder/1000/600" alt="Emergency Lighting">
+          <div class="slide-overlay">Emergency Lighting</div>
         </div>
-        <div class="gallery-item">
-          <img src="/api/placeholder/500/500" alt="Custom Project 5">
-          <div class="gallery-overlay">
-            <span>REMOVE LATER</span>
-          </div>
+        
+        <div class="slide">
+          <img src="/api/placeholder/1000/600" alt="Curved Screen Lighting">
+          <div class="slide-overlay">Curved Screen Lighting</div>
         </div>
-        <div class="gallery-item">
-          <img src="/api/placeholder/500/500" alt="Custom Project 6">
-          <div class="gallery-overlay">
-            <span>REMOVE LATER AND REPLACE WITH CURVED SCREEN</span>
-          </div>
-        </div>
+        
+        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+      </div>
+    </div>
+    
+    <div class="thumbnail-container">
+      <div class="thumbnail active" onclick="showSlide(0)">
+        <img src="/api/placeholder/200/150" alt="Starlights Thumbnail">
+      </div>
+      <div class="thumbnail" onclick="showSlide(1)">
+        <img src="/api/placeholder/200/150" alt="Ambient Lighting Thumbnail">
+      </div>
+      <div class="thumbnail" onclick="showSlide(2)">
+        <img src="/api/placeholder/200/150" alt="Underglow Thumbnail">
+      </div>
+      <div class="thumbnail" onclick="showSlide(3)">
+        <img src="/api/placeholder/200/150" alt="Emergency Lighting Thumbnail">
+      </div>
+      <div class="thumbnail" onclick="showSlide(4)">
+        <img src="/api/placeholder/200/150" alt="Curved Screen Lighting Thumbnail">
       </div>
     </div>
   </section>
+
+  <script src="gallery-script.js"></script>
 
   <section class="deposit" id="deposit">
     <div class="container">
@@ -2026,6 +2190,43 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 300); // Small delay for better transition
     };
   });
+
+
+
+    let slideIndex = 0;
+
+  function showSlide(n) {
+    const slides = document.getElementsByClassName("slide");
+    const thumbnails = document.getElementsByClassName("thumbnail");
+    
+    // Reset all slides and thumbnails
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].classList.remove("active-slide");
+      thumbnails[i].classList.remove("active");
+    }
+    
+    // Set the active slide and thumbnail
+    slideIndex = n;
+    slides[slideIndex].classList.add("active-slide");
+    thumbnails[slideIndex].classList.add("active");
+  }
+
+  function changeSlide(n) {
+    const slides = document.getElementsByClassName("slide");
+    slideIndex += n;
+    
+    // Wrap around if at the ends
+    if (slideIndex >= slides.length) {
+      slideIndex = 0;
+    } else if (slideIndex < 0) {
+      slideIndex = slides.length - 1;
+    }
+    
+    showSlide(slideIndex);
+  }
+
+  // Initialize with the first slide active
+  showSlide(0);
   </script>
 </body>
 </html>
