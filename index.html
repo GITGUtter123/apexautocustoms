@@ -7,6 +7,7 @@
     name="description"
     content="Professional automotive customization in [Your Location] - star headliners, ambient lighting, underglow, emergency lighting, and more. Transform your vehicle with Apex Auto Customs."
   />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
   <!-- Prioritized and expanded keywords -->
   <meta
     name="keywords"
@@ -786,9 +787,22 @@
         font-size: 18px;
       }
     }
+
+    html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overscroll-behavior-y: none;
+}
+
+.smooth-scroll {
+  position: relative;
+}
   </style>
 </head>
 <body>
+  <div class="smooth-scroll" data-scroll-container>
   <div class="background-container">
     <div class="animated-background"></div>
     <div class="light-particles" id="light-particles"></div>
@@ -1107,7 +1121,7 @@
       </div>
     </div>
   </footer>
-  
+</div>
   <script>
     // Create light particles
     function createStarHeadliner() {
@@ -2412,5 +2426,45 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+<script>
+// Smooth Scroll Implementation
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Locomotive Scroll
+  const scroll = new LocomotiveScroll({
+    el: document.querySelector('[data-scroll-container]'),
+    smooth: true,
+    multiplier: 0.8, // Adjust scroll speed (lower = slower)
+    smartphone: {
+      smooth: true
+    },
+    tablet: {
+      smooth: true
+    }
+  });
+
+  // Smooth scrolling for anchor links
+  const anchorLinks = document.querySelectorAll('a[href^="#"]');
+  
+  anchorLinks.forEach(anchorLink => {
+    anchorLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = anchorLink.getAttribute('href');
+      const target = document.querySelector(targetId);
+      
+      if (target) {
+        scroll.scrollTo(target);
+      }
+    });
+  });
+
+  // Optional: Update scroll on window resize
+  window.addEventListener('resize', () => {
+    scroll.update();
+  });
+});
+</script>
+
 </body>
 </html>
