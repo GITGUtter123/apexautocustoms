@@ -799,6 +799,31 @@ body {
 .smooth-scroll {
   position: relative;
 }
+
+@keyframes slideOut {
+  0% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(-100px); }
+}
+
+@keyframes slideIn {
+  0% { opacity: 0; transform: translateX(100px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s ease;
+}
+
+.active-slide {
+  animation: slideIn 0.5s forwards;
+}
+
+.slide-out {
+  animation: slideOut 0.5s forwards;
+}
   </style>
 </head>
 <body>
@@ -2357,40 +2382,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    let slideIndex = 0;
+// Gallery Slideshow Functionality
+let slideIndex = 0;
+const slides = document.querySelectorAll('.slide');
+const thumbnails = document.querySelectorAll('.thumbnail');
+let isAnimating = false;
 
-  function showSlide(n) {
-    const slides = document.getElementsByClassName("slide");
-    const thumbnails = document.getElementsByClassName("thumbnail");
-    
-    // Reset all slides and thumbnails
-    for (let i = 0; i < slides.length; i++) {
-      slides[i].classList.remove("active-slide");
-      thumbnails[i].classList.remove("active");
-    }
-    
-    // Set the active slide and thumbnail
-    slideIndex = n;
-    slides[slideIndex].classList.add("active-slide");
-    thumbnails[slideIndex].classList.add("active");
-  }
+// Initialize the gallery
+showSlide(slideIndex);
 
-  function changeSlide(n) {
-    const slides = document.getElementsByClassName("slide");
-    slideIndex += n;
-    
-    // Wrap around if at the ends
-    if (slideIndex >= slides.length) {
-      slideIndex = 0;
-    } else if (slideIndex < 0) {
-      slideIndex = slides.length - 1;
-    }
-    
+function changeSlide(n) {
+  if (isAnimating) return;
+  isAnimating = true;
+  
+  // Calculate new index with wrap-around
+  const newIndex = (slideIndex + n + slides.length) % slides.length;
+  
+  // Add outgoing animation to current slide
+  slides[slideIndex].classList.add('slide-out');
+  
+  // After animation completes, switch slides
+  setTimeout(() => {
+    slides[slideIndex].classList.remove('active-slide', 'slide-out');
+    slideIndex = newIndex;
     showSlide(slideIndex);
-  }
+    isAnimating = false;
+  }, 500); // Match this duration with your CSS animation
+}
 
-  // Initialize with the first slide active
-  showSlide(0);
+function showSlide(n) {
+  // Reset all slides and thumbnails
+  slides.forEach(slide => {
+    slide.classList.remove('active-slide', 'slide-out');
+  });
+  
+  thumbnails.forEach(thumb => {
+    thumb.classList.remove('active');
+  });
+  
+  // Activate new slide and thumbnail
+  slides[n].classList.add('active-slide');
+  thumbnails[n].classList.add('active');
+}
+
+// Event listeners for navigation
+document.querySelector('.next').addEventListener('click', () => changeSlide(1));
+document.querySelector('.prev').addEventListener('click', () => changeSlide(-1));
+
+// Event listeners for thumbnails
+thumbnails.forEach((thumb, index) => {
+  thumb.addEventListener('click', () => {
+    if (index !== slideIndex && !isAnimating) {
+      isAnimating = true;
+      slides[slideIndex].classList.add('slide-out');
+      
+      setTimeout(() => {
+        slides[slideIndex].classList.remove('active-slide', 'slide-out');
+        slideIndex = index;
+        showSlide(slideIndex);
+        isAnimating = false;
+      }, 500);
+    }
+  });
+});
   </script>
 
 
