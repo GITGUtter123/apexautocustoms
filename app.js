@@ -521,11 +521,6 @@ document.addEventListener("DOMContentLoaded", () => {
         scroll.update();
       });
 
-      // Add a short delay before updating
-      setTimeout(() => {
-        scroll.update();
-      }, 100);
-
       // Update on window resize
       window.addEventListener("resize", () => {
         scroll.update();
