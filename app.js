@@ -515,6 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
       smooth: true,
     },
   });
+  scroll.update()
 
   // Smooth scrolling for anchor links
   const anchorLinks = document.querySelectorAll('a[href^="#"]');
@@ -535,4 +536,10 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", () => {
     scroll.update();
   });
+  function ScrollUpdateDelay() {
+        setTimeout(function(){ scroll.update(); }, 500);
+   
+    }
+
+    ScrollUpdateDelay();
 });
