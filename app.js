@@ -515,6 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
       smooth: true,
     },
   });
+  scroll.update()
 
   // Smooth scrolling for anchor links
   const anchorLinks = document.querySelectorAll('a[href^="#"]');
