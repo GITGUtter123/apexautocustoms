@@ -526,10 +526,6 @@ document.addEventListener("DOMContentLoaded", () => {
         scroll.update();
       });
 
-      // Update on user interaction (helps when idle)
-      document.addEventListener("mousemove", () => scroll.update());
-      document.addEventListener("touchstart", () => scroll.update());
-
       // Smooth scrolling for anchor links
       const anchorLinks = document.querySelectorAll('a[href^="#"]');
       anchorLinks.forEach((anchorLink) => {
