@@ -501,39 +501,51 @@ document.querySelectorAll(".services .service-card").forEach((card) => {
   });
 });
 
-// Smooth Scroll Implementation
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize Locomotive Scroll
-  const scroll = new LocomotiveScroll({
-    el: document.querySelector("[data-scroll-container]"),
-    smooth: true,
-    multiplier: 1.18, // Adjust scroll speed (lower = slower)
-    smartphone: {
-      smooth: true,
-    },
-    tablet: {
-      smooth: true,
-    },
-  });
-  scroll.update()
+      // Initialize Locomotive Scroll
+      const scroll = new LocomotiveScroll({
+        el: document.querySelector("[data-scroll-container]"),
+        smooth: true,
+        multiplier: 1.18, // Adjust scroll speed
+        inertia: 0.1, // Smoother scrolling
+        smartphone: {
+          smooth: true,
+        },
+        tablet: {
+          smooth: true,
+        },
+      });
 
-  // Smooth scrolling for anchor links
-  const anchorLinks = document.querySelectorAll('a[href^="#"]');
+      // Force recalculation after all content is loaded
+      window.addEventListener("load", () => {
+        scroll.update();
+      });
 
-  anchorLinks.forEach((anchorLink) => {
-    anchorLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      const targetId = anchorLink.getAttribute("href");
-      const target = document.querySelector(targetId);
+      // Add a short delay before updating
+      setTimeout(() => {
+        scroll.update();
+      }, 100);
 
-      if (target) {
-        scroll.scrollTo(target);
-      }
+      // Update on window resize
+      window.addEventListener("resize", () => {
+        scroll.update();
+      });
+
+      // Update on user interaction (helps when idle)
+      document.addEventListener("mousemove", () => scroll.update());
+      document.addEventListener("touchstart", () => scroll.update());
+
+      // Smooth scrolling for anchor links
+      const anchorLinks = document.querySelectorAll('a[href^="#"]');
+      anchorLinks.forEach((anchorLink) => {
+        anchorLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetId = anchorLink.getAttribute("href");
+          const target = document.querySelector(targetId);
+
+          if (target) {
+            scroll.scrollTo(target);
+          }
+        });
+      });
     });
-  });
-
-  // Optional: Update scroll on window resize
-  window.addEventListener("resize", () => {
-    scroll.update();
-  });
-});
